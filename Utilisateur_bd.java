@@ -16,7 +16,7 @@ import java.util.List;
 		public Utilisateur_bd() {
 		}
 
-		public void insertUser(Utilisateur user) throws SQLException {
+		public static void insertUser(Utilisateur user) throws SQLException {
 			System.out.println(INSERT_USERS_SQL);
 			try (Connection connection = DBUtil.getConnection();
 					PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
@@ -31,7 +31,7 @@ import java.util.List;
 				System.out.println(preparedStatement);
 				preparedStatement.executeUpdate();
 			} catch (SQLException e) {
-				printSQLException(e);
+				e.printStackTrace();
 			}
 		}
 
@@ -53,7 +53,7 @@ import java.util.List;
 					user = new Utilisateur(idutilisateur,nom,prenom, login, pwd,role);
 				}
 			} catch (SQLException e) {
-				printSQLException(e);
+				e.printStackTrace();
 			}
 			return user;
 		}
@@ -78,7 +78,7 @@ import java.util.List;
 					users.add(new Utilisateur(idutilisateur,nom,prenom,login,pwd,role));
 				}
 			} catch (SQLException e) {
-				printSQLException(e);
+				e.printStackTrace();
 			}
 			return users;
 		}
@@ -133,23 +133,13 @@ import java.util.List;
 			return status;
 		}
 		
-		private void printSQLException(SQLException ex) {
-			for (Throwable e : ex) {
-				if (e instanceof SQLException) {
-					e.printStackTrace(System.err);
-					System.err.println("SQLState: " + ((SQLException) e).getSQLState());
-					System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
-					System.err.println("Message: " + e.getMessage());
-					Throwable t = ex.getCause();
-					while (t != null) {
-						System.out.println("Cause: " + t);
-						t = t.getCause();
-					}
-				}
-			}
-		}
+	
+				
+			
+		
 
 	
 
 	}
+
 

@@ -7,10 +7,11 @@ import java.util.List;
 
 
 public class livre_bd {
-	   private static final String INSERT_livre_SQL = "INSERT INTO livre" + "  (idlivre,titre, auteur,genre,disponibilite ) VALUES "
+	   private static final String INSERT_livre_SQL = "INSERT INTO livre" + "  (idlivre,titre, auteur,genre,disponibilite) VALUES "
 				+ " (?, ?,?,?,?);";
 
-		private static final String SELECT_livre_BY_ID = "select idlivre,titre,auteur,genre from livre where id =?";
+		private static final String SELECT_livre_BY_id = "select idlivre,titre,auteur,genre,disponibilite from livre where idlivre =?";
+	   private static final String SELECT_livre_BY_titre = "select idlivre,titre,auteur,genre,disponibilite from livre where titre =?";
 		private static final String SELECT_ALL_livre = "select * from livre";
 		//private static final String UPDATE_livre_SQL = "UPDATE livre SET idlivre = ?, titre = ? WHERE id = ?;";
 		private static final String DELETE_livre_SQL = "delete from livre where id = ?;";
@@ -41,19 +42,19 @@ public class livre_bd {
 		public static Livre selectlivre(String id) {
 			Livre livre = null;
 			try (Connection connection = DBUtil.getConnection();
-					PreparedStatement preparedStatement = connection.prepareStatement(SELECT_livre_BY_ID);) {
+					PreparedStatement preparedStatement = connection.prepareStatement(SELECT_livre_BY_id);) {
 				preparedStatement.setString(1, id);
 				System.out.println(preparedStatement);
 				ResultSet rs = preparedStatement.executeQuery();
 
 				while (rs.next()) {
 					String idlivre=rs.getString("idlivre");
-					String titre = rs.getString("titre");
+					String titre1 = rs.getString("titre");
 					String auteur= rs.getString("auteur");
-					String genre =rs.getString("genre);");
-					String disponiblilite=rs.getString("disponiblite");
+					String genre =rs.getString("genre");
+					String 	disponibilite =rs.getString("disponibilite");
 						
-					livre = new Livre(idlivre , titre, auteur,genre,disponiblilite);
+					livre = new Livre(idlivre , titre1, auteur,genre,disponibilite);
 					
 				}
 			} catch (SQLException e) {
@@ -64,7 +65,7 @@ public class livre_bd {
 		public static Livre selectByTitrelivre(String tit) {
 			Livre livre = null;
 			try (Connection connection = DBUtil.getConnection();
-					PreparedStatement preparedStatement = connection.prepareStatement(SELECT_livre_BY_ID);) {
+					PreparedStatement preparedStatement = connection.prepareStatement(SELECT_livre_BY_titre);) {
 				preparedStatement.setString(1, tit);
 				System.out.println(preparedStatement);
 				ResultSet rs = preparedStatement.executeQuery();
@@ -73,10 +74,10 @@ public class livre_bd {
 					String idlivre=rs.getString("idlivre");
 					String titre = rs.getString("titre");
 					String auteur= rs.getString("auteur");
-					String genre =rs.getString("genre);");
-					String disponiblilite=rs.getString("disponiblite");
+					String genre =rs.getString("genre");
+					String 	disponibilite=rs.getString("disponibilite");
 						
-					livre = new Livre(idlivre , titre, auteur,genre,disponiblilite);
+					livre = new Livre(idlivre , titre, auteur,genre,disponibilite);
 					
 					
 					

@@ -1,21 +1,22 @@
 package projet;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public class biblo {
-	public void Authentifcation (Utilisateur user) {
+	public static void Authentifcation (Utilisateur user) {
 		 Boolean authentifier =Utilisateur_bd.validate(user); 
-		 if (authentifier)
-			 System.out.println("connecter avec succes");
+		 if (authentifier) {
+			 System.out.println("connecter avec succes");}
 		 else 
 			 System.out.println("username ou mot de passe incorrect");
 			
 	}
-	public void consulter() {
+	public static void consulter() {
 		List<Livre> livres = livre_bd.selectAlllivre();
         for (Livre livre : livres) {
         	System.out.println("ID Livre: " + livre.getIdlivre());
@@ -23,13 +24,13 @@ public class biblo {
         }
 
 	}
-	public void rechercherlivre(String titre) {
+	public static void rechercherlivre(String titre) {
 		Livre livre = livre_bd.selectByTitrelivre(titre);
 		System.out.println("ID Livre: " + livre.getIdlivre());
         System.out.println("Titre: " + livre.getTitre());
 
 	}
-	public void affichedetails(String id) {
+	public static void affichedetails(String id) {
 		Livre livre = livre_bd.selectlivre(id);
 		System.out.println("ID Livre: " + livre.getIdlivre());
         System.out.println("Titre: " + livre.getTitre());
@@ -40,7 +41,7 @@ public class biblo {
     }
 
 	
-	public void gestionemprunt(Emprunt emprunt) {
+	public static void gestionemprunt(Emprunt emprunt) {
 
 		Livre livre = livre_bd.selectlivre(emprunt.getIdLivre());
 		if (livre.getDisponibilite().equals("disponible")) {
@@ -75,22 +76,32 @@ public class biblo {
         System.out.println("--------------");
 	}
 
-	public void reservation() {
-		if (!Livre.isDisponible()) {
-            
-		//String reservationQuery = "INSERT INTO Reservation (id_utilisateur, id_livre, date_reservation, statut) VALUES (?, ?, ?, 'en attente')";
-			
-			Reservation reservation=Reservation_bd.insertReservation(reservation);
-			
-			System.out.println("Livre réservé avec succès!");}
-	
+	public static void reservation(Livre livre , Utilisateur utilisateur) {
+		
+	    if (livre.getDisponibilite().equals("nodisponible")) {
+            Date date = new Date(0);
+        //String reservationQuery = "INSERT INTO Reservation (id_utilisateur, id_livre, date_reservation, statut) VALUES (?, ?, ?, 'en attente')";
+            Reservation reservation = new Reservation(livre.getIdlivre()+"/"+date.toString(),livre.getIdlivre() , utilisateur.getIdutilisateur(), date.toString(), "encours");
+            try {
+                Reservation_bd.insertReservation(reservation);
+                System.out.println("Livre réservé avec succès!");
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
         else {
                 System.out.println("Le livre est déjà disponible. Aucune réservation nécessaire.");
-            }
-		 //String query = "SELECT * FROM Reservation WHERE id_utilisateur=?";
-				Reservation reservation1=Reservation_bd.selectReservation(id);
-	}
-	public void consultationhistorisque() {
+        }
+         //String query = "SELECT * FROM Reservation WHERE id_utilisateur=?";
+                //Reservation reservation1=Reservation_bd.selectReservation(livre.getIdlivre());
+    }
+
+	
+	
+	
+	public static void consultationhistorisque() {
 		String query = "SELECT livre.titre, Emprunt.date_emprunt, Emprunt.date_retour, Emprunt.statut " +
                 "FROM emprunt " +
                 "INNER JOIN Livre ON Emprunt.id_livre = Livre.id_livre " +

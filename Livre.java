@@ -5,7 +5,7 @@ public class Livre {
 	private String titre ;
 	private String auteur ;
 	private String genre ;
-	private String disponibilite ;
+	private String 	disponibilite ;
 	
 public Livre(String id, String tit , String aut,String gen ,String dispo) {
 	this.idlivre=id;
@@ -61,5 +61,10 @@ public void setDisponibilite(String disponibilite) {
 public String toString() {
 	return "Livre [idlivre=" + idlivre + ", titre=" + titre + ", auteur=" + auteur + ", genre=" + genre
 			+ ", disponibilite=" + disponibilite + "]";
+}
+
+public static boolean isDisponible() {
+	// TODO Auto-generated method stub
+	return false;
 }
 }

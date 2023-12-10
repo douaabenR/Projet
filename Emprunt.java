@@ -7,14 +7,15 @@ public class Emprunt {
     private String date_retour;
     private String statut;
     private String idLivre;
+    private String idutilisateur; 
 
-    public Emprunt(String id, String date, String dateretour, String statut, String idLivre) {
+    public Emprunt(String id, String date, String dateretour, String statut, String idLivre,String idutilisateur) {
         this.idemprunt = id;
         this.date_emprunt = date;
         this.date_retour = dateretour;
         this.statut = statut;
         this.idLivre = idLivre ;
-    }
+        this.idutilisateur=idutilisateur;}
 
     public String getDate_retour() {
 		return date_retour;
@@ -69,4 +70,12 @@ public class Emprunt {
         return "Emprunt [idemprunt=" + idemprunt + ", date_emprunt=" + date_emprunt + ", dateretour=" + date_retour
                 + ", statut=" + statut + "]";
     }
+
+	public String getIdutilisateur() {
+		return idutilisateur;
+	}
+
+	public void setIdutilisateur(String idutilisateur) {
+		this.idutilisateur = idutilisateur;
+	}
 }

@@ -4,10 +4,14 @@ public class Reservation {
 	private String idreservation ;
 	private String date_reservation;
 	private String statut;
-	public Reservation(String id,String date,String statut) {
+	private String idutilisateur ;
+	private String idlivre;
+	public Reservation(String id,String date,String statut,String idutilisateur,String idlivre) {
 		this.idreservation=id;
 		this.date_reservation=date;
 		this.statut=statut;
+		this.idutilisateur=idutilisateur ;
+		this.idlivre=idlivre;
 		
 	}
 	public String getIdreservation() {
@@ -27,6 +31,18 @@ public class Reservation {
 	}
 	public void setStatut(String statut) {
 		this.statut = statut;
+	}
+	public String getIdutilisateur() {
+		return idutilisateur;
+	}
+	public void setIdutilisateur(String idutilisateur) {
+		this.idutilisateur = idutilisateur;
+	}
+	public String getIdlivre() {
+		return idlivre;
+	}
+	public void setIdlivre(String idlivre) {
+		this.idlivre = idlivre;
 	}
 	
 

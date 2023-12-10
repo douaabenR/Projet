@@ -6,14 +6,14 @@ public class Utilisateur {
 	private String prenom ;
 	private String login;
 	private String pwd;
-	private String role;
+	public static String role;
 public Utilisateur (String idutilisateur,String nom,String prenom,String login, String pwd,String role) {
     this.idutilisateur=idutilisateur ;
 	this.nom=nom ;
 	this.prenom=prenom ;
 	this.login=login;
 	this.pwd=pwd ;
-	this.role=role;
+	Utilisateur.role=role;
 	
 }
 public String getIdutilisateur() {
@@ -50,7 +50,7 @@ public String getRole() {
 	return role;
 }
 public void setRole(String role) {
-	this.role = role;
+	Utilisateur.role = role;
 }
 @Override
 public String toString() {

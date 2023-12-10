@@ -9,11 +9,11 @@ import java.util.List;
 
 public class Emprunt_bd {
 	   private static final String INSERT_emprunt_SQL = "INSERT INTO emprunts" + "  ((idemprunt,date_emprunt,date_retour,statut) VALUES "
-				+ " (?,?,?,?);";
+				+ " (?,?,?,?,?,?);";
 
-		private static final String SELECT_emprunt_BY_ID = "select idemprunt,date_emprunt,date_retour,statut from Emprunt where id =?";
+		private static final String SELECT_emprunt_BY_ID = "select idemprunt,date_emprunt,date_retour,statut from Emprunt where idemprunt =?";
 		private static final String SELECT_ALL_Emprunt = "select * from Emprunt";
-		private static final String DELETE_Emprunt_SQL = "delete from Emprunt where id = ?;";
+		private static final String DELETE_Emprunt_SQL = "delete from Emprunt where idemprunt = ?;";
 
 		public Emprunt_bd() {
 		}
@@ -26,6 +26,8 @@ public class Emprunt_bd {
 				preparedStatement.setString(2, emprunt.getDate_emprunt());
 				preparedStatement.setString(3, emprunt.getDateretour());
 				preparedStatement.setString(4, emprunt.getStatut());
+				preparedStatement.setString(5, emprunt.getIdutilisateur());
+				preparedStatement.setString(6, emprunt.getIdLivre());
 				
 				System.out.println(preparedStatement);
 				preparedStatement.executeUpdate();
@@ -34,11 +36,7 @@ public class Emprunt_bd {
 			}
 		}
 
-		private void printSQLException(SQLException e) {
-			// TODO Auto-generated method stub
-			
-		}
-
+		
 		public Emprunt selectemprunt(String idemprunt) {
 			Emprunt emprunt = null;
 			try (Connection connection = DBUtil.getConnection();
@@ -52,7 +50,10 @@ public class Emprunt_bd {
 					String date_emprunt = rs.getString("date_emprunt");
 					String date_retour= rs.getString("date_retour");
 					String statut= rs.getString("statut");
-					emprunt = new Emprunt(idemprunt1, date_emprunt,date_retour,statut );
+					String idutilisateur= rs.getString("idutilisateur");
+					String idlivre= rs.getString("idlivre");
+					
+					emprunt = new Emprunt(idemprunt1, date_emprunt,date_retour,statut,idutilisateur,idlivre );
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -75,7 +76,10 @@ public class Emprunt_bd {
 					String date_emprunt = rs.getString("date_emprunt");
 					String date_retour= rs.getString("date_retour");
 					String statut= rs.getString("statut");
-					emprunts.add(new Emprunt(idemprunt, date_emprunt,date_retour,statut ));
+					String idutilisateur= rs.getString("idutilisateur");
+					String idlivre= rs.getString("idlivre");
+					
+					emprunts.add(new Emprunt(idemprunt, date_emprunt,date_retour,statut,idutilisateur,idlivre));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

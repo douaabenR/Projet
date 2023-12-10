@@ -8,10 +8,10 @@ package projet;
 	public class Reservation_bd {
 
 	    private static final String INSERT_RESERVATION_SQL = "INSERT INTO reservation" +
-	            "  (idreservation ,date_reservation , statut) VALUES " +
-	            " (?,?,?);";
+	            "  (idreservation ,date_reservation , statut,idutilisateur,idlivre) VALUES " +
+	            " (?,?,?,?,?);";
 
-	    private static final String SELECT_RESERVATION_BY_ID = "SELECT date_reservation,statut FROM reservation WHERE id = ?";
+	    private static final String SELECT_RESERVATION_BY_ID = "SELECT date_reservation,statut,idutilisateur,idlivre FROM reservation WHERE id = ?";
 	    private static final String SELECT_ALL_RESERVATION = "SELECT * FROM reservation";
 	    private static final String DELETE_RESERVATION_SQL = "DELETE FROM reservation WHERE id = ?";
 	    private static final String UPDATE_RESERVATION_SQL = "UPDATE reservation SET  date_reservation=? statut =? WHERE id = ?";
@@ -19,20 +19,23 @@ package projet;
 	    public Reservation_bd() {
 	    }
 
-	    public void insertReservation(Reservation resv) throws SQLException {
+	    public static void insertReservation(Reservation resv) throws SQLException {
 	        System.out.println(INSERT_RESERVATION_SQL);
 	        try (Connection connection = DBUtil.getConnection();
 	             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_RESERVATION_SQL)) {
 	            preparedStatement.setString(1, resv.getDate_reservation());
 	            preparedStatement.setString(2, resv.getIdreservation());
 	            preparedStatement.setString(3, resv.getStatut());
+	            preparedStatement.setString(4, resv.getIdutilisateur());
+	            preparedStatement.setString(5, resv.getIdlivre());
+	            
 
 
 	            
 	            System.out.println(preparedStatement);
 	            preparedStatement.executeUpdate();
 	        } catch (SQLException e) {
-	            printSQLException(e);
+	            
 	        }
 	    }
 
@@ -48,8 +51,12 @@ package projet;
 	                String idreservation = rs.getString("idreservation");
 	                String date_reservation = rs.getString("date_reservation");
 	                String statut = rs.getString("statut");
+	                String idutilisateur = rs.getString("idutilisateur");
+	                String idlivre = rs.getString("idlivre");
 
-	                resv = new Reservation(idreservation, date_reservation, statut);
+
+
+	                resv = new Reservation(idreservation, date_reservation, statut,idutilisateur,idlivre);
 	            }
 	        } catch (SQLException e) {
 	            printSQLException(e);
@@ -68,11 +75,14 @@ package projet;
 	                String idreservation= rs.getString("idreservation");
 	            	String date_reservation = rs.getString("date_reservation");
 	            	String statut = rs.getString("statut");
+	            	String idutilisateur = rs.getString("idutilisateur");
+		            String idlivre = rs.getString("idlivre");
 
-	                reservations.add(new Reservation(idreservation, date_reservation,statut));
+
+	                reservations.add(new Reservation(idreservation, date_reservation,statut,idutilisateur,idlivre));
 	            }
 	        } catch (SQLException e) {
-	            printSQLException(e);
+	        	e.printStackTrace();
 	        }
 	        return reservations;
 	    }
@@ -94,7 +104,10 @@ package projet;
 	            statement.setString(1, resv.getDate_reservation());
 	            statement.setString(2, resv.getIdreservation());
 	            statement.setString(3, resv.getStatut());
-
+	            statement.setString(4, resv.getIdutilisateur());
+	            statement.setString(5, resv.getIdlivre());
+	            
+	            
 
 	            rowUpdated = statement.executeUpdate() > 0;
 	        }
